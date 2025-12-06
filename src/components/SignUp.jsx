@@ -13,10 +13,15 @@ export default function SignUp() {
 
     let result = await fetch("http://localhost:3000/api/restaurent", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(user),
     });
-
-    console.log(result);
+    result = await result.json();
+    if (result.success) {
+      alert("Restaurent Registered Successfully");
+    }
 
     setName("");
     setEmail("");

@@ -6,9 +6,13 @@ export async function GET() {
   await connectDB();
   const data = await Restaurent.find();
   console.log(data);
-  return NextResponse.json({ message: "API Working" });
+  return NextResponse.json({ message: "API Working", data: data });
 }
 
-export async function POST() {
-  return NextResponse.json({ result: trues });
+export async function POST(request) {
+  const payload = await request.json();
+  await connectDB();
+  const restaurent = new Restaurent(payload);
+  const result = restaurent.save();
+  return NextResponse.json({ result, success: true });
 }
