@@ -6,7 +6,7 @@ export default function RestaurentHeader() {
       <div>
         <h1>Food Devlivery App</h1>
       </div>
-      <div>
+      <div className="flex gap-10">
         <h1>Home</h1>
         <h1>Login/SignUp</h1>
         <h1>Profile</h1>

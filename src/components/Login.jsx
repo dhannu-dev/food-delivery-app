@@ -19,6 +19,10 @@ export default function Login() {
             type="password"
           />
         </div>
+
+        <button className="p-2 rounded-md border w-full mt-3 cursor-pointer bg-white text-black hover:bg-black hover:text-white">
+          Login
+        </button>
       </div>
     </div>
   );
