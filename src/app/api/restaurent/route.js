@@ -11,8 +11,26 @@ export async function GET() {
 
 export async function POST(request) {
   const payload = await request.json();
+  let result;
+  let success = false;
   await connectDB();
-  const restaurent = new Restaurent(payload);
-  const result = restaurent.save();
-  return NextResponse.json({ result, success: true });
+  if (payload.login) {
+    result = await Restaurent.findOne({
+      email: payload.email,
+      password: payload.password,
+    });
+
+    if (result) {
+      success = true;
+    }
+  } else {
+    const restaurent = new Restaurent(payload);
+    result = await restaurent.save();
+
+    if (result) {
+      success = true;
+    }
+  }
+
+  return NextResponse.json({ result, success });
 }

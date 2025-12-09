@@ -1,6 +1,28 @@
-import React from "react";
+"use client";
+import { useRouter, usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function RestaurentHeader() {
+  const [details, setDetails] = useState();
+  const router = useRouter();
+  const pathName = usePathname();
+
+  useEffect(() => {
+    let data = localStorage.getItem("restaurentUser");
+    if (!data) {
+      router.push("/restaurent");
+    } else if (data && pathName == "/restaurent") {
+      router.push("/restaurent/dashboard");
+    } else {
+      setDetails(JSON.parse(data));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("restaurentUser");
+    router.push("/restaurent");
+  };
+
   return (
     <div className="flex w-full justify-between p-5 ">
       <div>
@@ -8,7 +30,13 @@ export default function RestaurentHeader() {
       </div>
       <div className="flex gap-10">
         <h1>Home</h1>
-        <h1>Login/SignUp</h1>
+        {details ? (
+          <h1 className="cursor-pointer" onClick={handleLogout}>
+            Logout
+          </h1>
+        ) : (
+          <h1>Login/SignUp</h1>
+        )}
         <h1>Profile</h1>
       </div>
     </div>
