@@ -1,50 +1,24 @@
+"use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export default function AddFoodItem({ setAddItem }) {
+export default function EditFoodItem() {
   const [name, setFoodName] = useState("");
   const [price, setPrice] = useState("");
   const [path, setPath] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
+  const router = useRouter();
 
-  const handleAddFood = async () => {
-    if (!name || !price || !path || !description) {
-      setError(true);
-      return;
-    }
-
-    let resto_id;
-    const restaurentData = JSON.parse(localStorage.getItem("restaurentUser"));
-    if (restaurentData) {
-      resto_id = restaurentData._id;
-    }
-
-    let response = await fetch("http://localhost:3000/api/restaurent/foods", {
-      method: "POST",
-      body: JSON.stringify({ name, price, path, description, resto_id }),
-    });
-
-    response = await response.json();
-
-    if (response.success) {
-      alert("food item added");
-      setAddItem(false);
-    } else {
-      alert("food item not added");
-    }
-
-    setFoodName("");
-    setDescription("");
-    setPrice("");
-    setPath("");
-    setError("");
+  const handleBackButton = () => {
+    router.push("/restaurent/dashboard");
   };
 
   return (
-    <div className="w-full justify-center items-center flex flex-col">
-      <h1 className="text-2xl mt-8">Add Food Item</h1>
+    <div className="w-full justify-center h-screen items-center flex flex-col">
+      <h1 className="text-2xl font-semibold ">Edit Food Item</h1>
       <div className="flex flex-col">
-        <div className="mt-5 ">
+        <div className="mt-2 ">
           <input
             type="text"
             value={name}
@@ -104,11 +78,15 @@ export default function AddFoodItem({ setAddItem }) {
           )}
         </div>
 
+        <button className="w-full p-2 rounded-md border mt-5 bg-zinc-300 text-black hover:bg-black hover:text-white cursor-pointer">
+          Update Food Item
+        </button>
+
         <button
-          onClick={handleAddFood}
+          onClick={handleBackButton}
           className="w-full p-2 rounded-md border mt-5 bg-zinc-300 text-black hover:bg-black hover:text-white cursor-pointer"
         >
-          Add Food Item
+          Back To Food Item List
         </button>
       </div>
     </div>

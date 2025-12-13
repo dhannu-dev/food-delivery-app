@@ -1,5 +1,6 @@
 "use client";
 import AddFoodItem from "@/components/AddFoodItem";
+import FoodItemList from "@/components/FoodItemList";
 import RestaurentHeader from "@/components/RestaurentHeader";
 import React, { useState } from "react";
 
@@ -23,13 +24,7 @@ export default function page() {
         </button>
       </div>
 
-      {addItem ? (
-        <AddFoodItem />
-      ) : (
-        <div className="flex justify-center items-center mt-10">
-          <h1 className="text-2xl ">Welcome to Dashboard</h1>
-        </div>
-      )}
+      {addItem ? <AddFoodItem setAddItem = {setAddItem} /> : <FoodItemList />}
     </div>
   );
 }
