@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function EditFoodItem() {
   const [name, setFoodName] = useState("");
@@ -9,6 +9,49 @@ export default function EditFoodItem() {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
   const router = useRouter();
+
+  const params = useParams();
+  const id = params?.id;
+
+  useEffect(() => {
+    if (id) {
+      handleFetchFoodById(id);
+    }
+  }, [id]);
+
+  const handleFetchFoodById = async (id) => {
+    console.log("fetch Id", id);
+    const result = await fetch(
+      `http://localhost:3000/api/restaurent/foods/edit/${id}`
+    );
+
+    const data = await result.json();
+    setFoodName(data.result.name);
+    setPrice(data.result.price);
+    setPath(data.result.path);
+    setDescription(data.result.description);
+  };
+
+  const handleEditFoodItem = async (id) => {
+    if (!name || !path || !price || !description) {
+      setError(true);
+      return;
+    }
+
+    const result = await fetch(
+      `http://localhost:3000/api/restaurent/foods/edit/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ name, price, path, description }),
+      }
+    );
+
+    const data = await result.json();
+    if (data.success) {
+      alert("Food Data has been updated");
+      router.push("/restaurent/dashboard");
+    }
+  };
 
   const handleBackButton = () => {
     router.push("/restaurent/dashboard");
@@ -78,7 +121,10 @@ export default function EditFoodItem() {
           )}
         </div>
 
-        <button className="w-full p-2 rounded-md border mt-5 bg-zinc-300 text-black hover:bg-black hover:text-white cursor-pointer">
+        <button
+          onClick={() => handleEditFoodItem(id)}
+          className="w-full p-2 rounded-md border mt-5 bg-zinc-300 text-black hover:bg-black hover:text-white cursor-pointer"
+        >
           Update Food Item
         </button>
 

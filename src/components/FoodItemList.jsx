@@ -11,13 +11,19 @@ export default function FoodItemList() {
 
   const loadFoodItems = async () => {
     const restaurentData = JSON.parse(localStorage.getItem("restaurentUser"));
+    if (!restaurentData) {
+      alert("Please Login First");
+      return;
+    }
+
     const resto_id = restaurentData._id;
     let response = await fetch(
       `http://localhost:3000/api/restaurent/foods/${resto_id}`
     );
-    response = await response.json();
-    if (response.success) {
-      setFoodItems(response.result);
+    const data = await response.json();
+    console.log("data", data);
+    if (data.success) {
+      setFoodItems(data.result);
     } else {
       alert("food items list is not loading");
     }

@@ -3,8 +3,9 @@ import { NextResponse } from "next/server";
 import Foods from "@/lib/foodModel";
 
 export const GET = async (request, content) => {
+  const {id} = await content.params
   await connectDB();
-  const result = await Foods.find({ resto_id: "6937bb59e792042e9b2a750f" });
+  const result = await Foods.find({ resto_id : id });
   return NextResponse.json({ result, success: true });
 };
 
