@@ -5,17 +5,18 @@ import React, { useState } from "react";
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSignup = async () => {
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !city) {
       setError("Please enter the field");
       return;
     }
 
-    const user = { name, email, password };
+    const user = { name, email, city, password };
 
     let response = await fetch("http://localhost:3000/api/restaurent", {
       method: "POST",
@@ -45,12 +46,21 @@ export default function SignUp() {
       <h1>Signup</h1>
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1.5">
-          <label>Username</label>
+          <label>Name</label>
           <input
             className="px-2 py-1.5 w-[300px] rounded-md outline-none border-zinc-500 border "
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label>City</label>
+          <input
+            className="px-2 py-1.5 w-[300px] rounded-md outline-none border-zinc-500 border "
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -62,6 +72,7 @@ export default function SignUp() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+
         <div className="flex flex-col gap-1.5">
           <label>Password</label>
           <input
