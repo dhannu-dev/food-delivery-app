@@ -20,7 +20,6 @@ export default function EditFoodItem() {
   }, [id]);
 
   const handleFetchFoodById = async (id) => {
-    console.log("fetch Id", id);
     const result = await fetch(
       `http://localhost:3000/api/restaurent/foods/edit/${id}`
     );

@@ -21,7 +21,6 @@ export default function FoodItemList() {
       `http://localhost:3000/api/restaurent/foods/${resto_id}`
     );
     const data = await response.json();
-    console.log("data", data);
     if (data.success) {
       setFoodItems(data.result);
     } else {

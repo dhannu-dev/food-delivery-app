@@ -25,7 +25,6 @@ export default function Page() {
 
   const loadRestaurents = async (params) => {
     let url = "http://localhost:3000/api/customer";
-    console.log(params);
     if (params?.location) {
       url = url + "?location=" + params.location;
     } else if (params?.restaurent) {
@@ -33,7 +32,6 @@ export default function Page() {
     }
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     if (data.success) {
       setRestaurent(data.result);
     }

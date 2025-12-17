@@ -5,7 +5,6 @@ import Restaurent from "@/lib/restaurentModel";
 export async function GET() {
   await connectDB();
   const data = await Restaurent.find();
-  console.log(data);
   return NextResponse.json({ message: "API Working", data: data });
 }
 

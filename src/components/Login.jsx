@@ -31,8 +31,6 @@ export default function Login() {
 
     setEmail("");
     setPassword("");
-
-    console.log({ email, password });
   };
 
   return (

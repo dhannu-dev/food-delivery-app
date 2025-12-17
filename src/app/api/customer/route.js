@@ -4,7 +4,6 @@ import Restaurent from "@/lib/restaurentModel";
 
 export const GET = async (request) => {
   const queryParams = request.nextUrl.searchParams;
-  console.log(queryParams.get("location"));
   await connectDB();
   let filter = {};
   if (queryParams.get("location")) {

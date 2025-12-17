@@ -27,7 +27,6 @@ export default function SignUp() {
     });
 
     response = await response.json();
-    console.log("response", response);
     if (response.success) {
       const { result } = response;
       delete result.password;

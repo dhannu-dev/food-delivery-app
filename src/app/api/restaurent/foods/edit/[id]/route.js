@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request, context) => {
   const { id } = await context.params;
-  console.log(id);
   await connectDB();
   const result = await Foods.findOne({ _id: id });
   return NextResponse.json({ result, success: true });
