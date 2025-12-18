@@ -8,44 +8,62 @@ export default function RestaurentDetails() {
   const { id } = useParams();
   const [details, setDetails] = useState();
   const [products, setProducts] = useState([]);
-  const [cartData, setCartData] = useState();
-  const [cartStorage, setCartStorage] = useState([]);
-  const [cartIds, setCartIds] = useState([]);
+  const [cartProductsId, setCartProductsId] = useState([]);
 
   useEffect(() => {
     fetchRestaurentData();
   }, []);
 
-  useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    setCartStorage(cart);
-    setCartIds(cart.map((item) => item._id));
-  }, []);
-
-  useEffect(() => {
-    console.log("Cart IDs:", cartIds);
-  }, [cartIds]);
-
   const fetchRestaurentData = async () => {
     const response = await fetch(`http://localhost:3000/api/customer/${id}`);
     const data = await response.json();
     if (data.success) {
+      console.log("data", data);
       setDetails(data.result);
       setProducts(data.foodItem);
     }
   };
 
   const handleCartData = (product) => {
-    setCartData(product);
-    let localCartIds = cartIds;
-    localCartIds.push(product._id);
-    setCartIds(localCartIds);
+    const storedRestoId = JSON.parse(localStorage.getItem("cartRestoId"));
+
+    if (storedRestoId && storedRestoId !== id) {
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartRestoId");
+    }
+
+    const freshCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const alreadyInCart = freshCart.find((item) => item._id === product._id);
+    if (alreadyInCart) {
+      alert("Already in Cart");
+      return;
+    }
+
+    const updatedCart = [...freshCart, product];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.setItem("cartRestoId", JSON.stringify(id));
+
+    setCartProductsId(updatedCart.map((item) => item._id));
+    alert("Product are added to cart");
   };
+
+  const handleRemoveFromCart = (productId) => {
+    const cartData = JSON.parse(localStorage.getItem("cart"));
+    const updatedCart = cartData.filter((item) => item._id !== productId);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartProductsId(updatedCart.map((item) => item._id));
+    alert("Product are removed from cart");
+  };
+
+  useEffect(() => {
+    const products = JSON.parse(localStorage.getItem("cart")) || [];
+    const ids = products?.map((product) => product._id);
+    setCartProductsId(ids);
+  }, []);
 
   return (
     <div className="">
-      <CustomHeader cartData={cartData} r />
+      <CustomHeader cartCount={cartProductsId.length} />
       <div className="flex items-center relative">
         <img src="/banner.jpg" className="w-full opacity-50" />
         <div className="absolute left-9">
@@ -78,9 +96,12 @@ export default function RestaurentDetails() {
                   <p className="text-zinc-400">₹{product.price}</p>
                   <p className="text-zinc-400">{product.description}</p>
                 </div>
-                {cartIds.includes(product._id) ? (
-                  <button className="p-2 w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white rounded-b-2xl">
-                    Remove from cart
+                {cartProductsId?.includes(product._id) ? (
+                  <button
+                    onClick={() => handleRemoveFromCart(product._id)}
+                    className="p-2 w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white rounded-b-2xl"
+                  >
+                    Remove From Cart
                   </button>
                 ) : (
                   <button
