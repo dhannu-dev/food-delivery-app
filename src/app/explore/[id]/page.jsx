@@ -1,14 +1,15 @@
 "use client";
 import CustomHeader from "@/components/CustomHeader";
 import Footer from "@/components/Footer";
+import { CartContext } from "@/context/cartContext";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 export default function RestaurentDetails() {
   const { id } = useParams();
   const [details, setDetails] = useState();
   const [products, setProducts] = useState([]);
-  const [cartProductsId, setCartProductsId] = useState([]);
+  const {cartCount, setCartCount, handleRemoveFromCart } = useContext(CartContext);
 
   useEffect(() => {
     fetchRestaurentData();
@@ -43,27 +44,19 @@ export default function RestaurentDetails() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     localStorage.setItem("cartRestoId", JSON.stringify(id));
 
-    setCartProductsId(updatedCart.map((item) => item._id));
+    setCartCount(updatedCart.map((item) => item._id));
     alert("Product are added to cart");
-  };
-
-  const handleRemoveFromCart = (productId) => {
-    const cartData = JSON.parse(localStorage.getItem("cart"));
-    const updatedCart = cartData.filter((item) => item._id !== productId);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartProductsId(updatedCart.map((item) => item._id));
-    alert("Product are removed from cart");
   };
 
   useEffect(() => {
     const products = JSON.parse(localStorage.getItem("cart")) || [];
     const ids = products?.map((product) => product._id);
-    setCartProductsId(ids);
+    setCartCount(ids);
   }, []);
 
   return (
     <div className="">
-      <CustomHeader cartCount={cartProductsId.length} />
+      <CustomHeader />
       <div className="flex items-center relative">
         <img src="/banner.jpg" className="w-full opacity-50" />
         <div className="absolute left-9">
@@ -96,7 +89,7 @@ export default function RestaurentDetails() {
                   <p className="text-zinc-400">₹{product.price}</p>
                   <p className="text-zinc-400">{product.description}</p>
                 </div>
-                {cartProductsId?.includes(product._id) ? (
+                {cartCount?.includes(product._id) ? (
                   <button
                     onClick={() => handleRemoveFromCart(product._id)}
                     className="p-2 w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white rounded-b-2xl"
