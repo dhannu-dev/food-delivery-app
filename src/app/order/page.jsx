@@ -24,6 +24,36 @@ export default function Page() {
     setUser(userData);
   }, []);
 
+  const handleOrder = async () => {
+    let user_id = user._id;
+    let resto_id = cart[0].resto_id;
+    let foodItemsIds = cart.map((item) => item._id).toString();
+    let delieveryBoy_id = "69452a140ddf7a903cd8b175";
+    let collection = {
+      user_id,
+      resto_id,
+      foodItemsIds,
+      delieveryBoy_id,
+      status: "confirm",
+      amount: totalPrice + DELIVERY_CHARGES + (totalPrice * TAX) / 100,
+    };
+
+    const response = await fetch("http://localhost:3000/api/order", {
+      method: "POST",
+      body: JSON.stringify(collection),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("order confirmed");
+    } else {
+      alert("order failed");
+    }
+
+    console.log("collection", collection);
+  };
+
   return (
     <div className="w-full bg-black flex flex-col justify-center items-center h-screen">
       <CustomHeader />
@@ -71,11 +101,16 @@ export default function Page() {
           <div className="flex flex-col w-[350px] gap-1">
             <h1 className="text-center text-orange-600 ">Payment Mode</h1>
             <div className="flex justify-between items-center">
-              <span>Cash On Delievery :</span> <span>₹{totalPrice}</span>
+              <span>Cash On Delievery :</span>{" "}
+              <span>
+                ₹{totalPrice + DELIVERY_CHARGES + (totalPrice * TAX) / 100}
+              </span>
             </div>
-             
           </div>
-          <button className="p-2 rounded-md bg-orange-600 cursor-pointer text-white mt-2">
+          <button
+            onClick={handleOrder}
+            className="p-2 rounded-md bg-orange-600 cursor-pointer text-white mt-2"
+          >
             Order Now
           </button>
         </div>
