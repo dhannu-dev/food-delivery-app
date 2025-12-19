@@ -1,8 +1,33 @@
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export default function UserLogin() {
+export default function UserLogin(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/user/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      console.log("data", data);
+      if (data.success) {
+        const { result } = data;
+        delete result.password;
+        localStorage.setItem("user", JSON.stringify(result));
+        if (props.redirect) {
+          router.push("/order");
+        } else {
+          router.push("/");
+        }
+      }
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
 
   return (
     <div className="flex w-full justify-center items-center">
@@ -26,7 +51,10 @@ export default function UserLogin() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button className="p-2 rounded-md bg-white text-black mt-3 cursor-pointer">
+        <button
+          onClick={handleLogin}
+          className="p-2 rounded-md bg-white text-black mt-3 cursor-pointer"
+        >
           Login
         </button>
       </div>

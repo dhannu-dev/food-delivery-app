@@ -1,3 +1,4 @@
+"use client";
 import { CartContext } from "@/context/cartContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -5,7 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 export default function CustomHeader() {
   const { cartCount } = useContext(CartContext);
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -15,9 +16,8 @@ export default function CustomHeader() {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user")) || [];
-    setUser(userData)
-
-  },[])
+    setUser(userData);
+  }, []);
 
   return (
     <div className="flex w-full justify-between p-5 ">
@@ -30,8 +30,15 @@ export default function CustomHeader() {
         </Link>
         {user ? (
           <div className="flex justify-between items-center gap-10">
-            <h1>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</h1>
-            <button className="cursor-pointer" onClick={handleLogout}>Logout</button>
+            <h1>
+              {user?.name
+                ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+                : ""}
+            </h1>
+
+            <button className="cursor-pointer" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         ) : (
           <div>

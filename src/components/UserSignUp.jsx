@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export default function UserSignUp() {
+export default function UserSignUp(props) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,7 +44,11 @@ export default function UserSignUp() {
       const { result } = data;
       delete result.password;
       localStorage.setItem("user", JSON.stringify(result));
-      router.push("/");
+      if (props.redirect) {
+        router.push("/order");
+      } else {
+        router.push("/");
+      }
     } else {
       alert("failed");
     }

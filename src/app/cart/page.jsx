@@ -3,11 +3,13 @@ import CustomHeader from "@/components/CustomHeader";
 import Footer from "@/components/Footer";
 import { CartContext } from "@/context/cartContext";
 import { DELIVERY_CHARGES, TAX } from "@/lib/constant";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const [cart, setCart] = useState([]);
   const { cartCount, handleRemoveFromCart } = useContext(CartContext);
+  const router = useRouter();
 
   const totalPrice = cart.reduce((acc, curr) => {
     return acc + Number(curr.price);
@@ -18,6 +20,15 @@ export default function page() {
     const cartData = JSON.parse(localStorage.getItem("cart"));
     setCart(cartData);
   }, [cartCount]);
+
+  const handleOrder = () => {
+    if (JSON.parse(localStorage.getItem("user"))) {
+      router.push("/order");
+    } else {
+      alert("please create an account and then place an order")
+      router.push("/user-auth?order=true");
+    }
+  };
 
   return (
     <div className="w-full min-h-screen bg-black flex flex-col">
@@ -74,14 +85,19 @@ export default function page() {
                   </span>
                 </div>
 
-                <button className="p-2 rounded-md bg-orange-600 cursor-pointer text-white mt-2">
-                  Order Now
+                <button
+                  onClick={handleOrder}
+                  className="p-2 rounded-md bg-orange-600 cursor-pointer text-white mt-2"
+                >
+                  Place your order
                 </button>
               </div>
             </div>
           </div>
         ) : (
-          <h1 className="text-white w-full mt-10 font-semibold text-xl text-center">Cart is empty</h1>
+          <h1 className="text-white w-full mt-10 font-semibold text-xl text-center">
+            Cart is empty
+          </h1>
         )}
       </div>
 
