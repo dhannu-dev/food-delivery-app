@@ -8,6 +8,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
     setCartCount(cart.map((item) => item._id));
   }, []);
 
@@ -20,7 +21,9 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartCount, setCartCount, handleRemoveFromCart }}>
+    <CartContext.Provider
+      value={{ cartCount, setCartCount, handleRemoveFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );
