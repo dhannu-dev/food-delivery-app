@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
-export default function CustomHeader() {
+export default function CustomHeader({ removeCart }) {
   const { cartCount } = useContext(CartContext);
   const [user, setUser] = useState();
   const router = useRouter();
@@ -19,6 +19,16 @@ export default function CustomHeader() {
     setUser(userData);
   }, []);
 
+  useEffect(() => {
+    if (removeCart) {
+      localStorage.removeItem("cart");
+    }
+  }, [removeCart]);
+
+  const handleProfile  = () => {
+    router.push("/myprofile")
+  }
+
   return (
     <div className="flex w-full justify-between p-5 ">
       <div>
@@ -30,7 +40,7 @@ export default function CustomHeader() {
         </Link>
         {user ? (
           <div className="flex justify-between items-center gap-10">
-            <h1>
+            <h1 onClick={handleProfile}>
               {user?.name
                 ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
                 : ""}

@@ -3,19 +3,22 @@ import CustomHeader from "@/components/CustomHeader";
 import Footer from "@/components/Footer";
 import { CartContext } from "@/context/cartContext";
 import { DELIVERY_CHARGES, TAX } from "@/lib/constant";
-import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 export default function Page() {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState();
   const { cartCount } = useContext(CartContext);
+  const [removeCart, setRemoveCart] = useState(false);
+  const router = useRouter();
 
-  const totalPrice = cart.reduce((acc, curr) => {
-    return acc + Number(curr.price);
-  }, 0);
+  const totalPrice = useMemo(() => {
+    return cart.reduce((acc, curr) => acc + Number(curr.price), 0);
+  }, [cart]);
 
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("cart"));
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(cartData);
   }, [cartCount]);
 
@@ -47,6 +50,9 @@ export default function Page() {
 
     if (result.success) {
       alert("order confirmed");
+      localStorage.removeItem("cart");
+      setRemoveCart(true);
+      router.push("/myprofile");
     } else {
       alert("order failed");
     }
@@ -54,9 +60,17 @@ export default function Page() {
     console.log("collection", collection);
   };
 
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cartData.length === 0) {
+      router.replace("/");
+    }
+  }, []);
+
   return (
     <div className="w-full bg-black flex flex-col justify-center items-center h-screen">
-      <CustomHeader />
+      <CustomHeader removeCart={removeCart} />
 
       <div className="flex flex-1 ">
         <div className="flex justify-center items-center flex-col gap-10 p-5">
