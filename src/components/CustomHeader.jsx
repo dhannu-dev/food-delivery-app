@@ -11,12 +11,16 @@ export default function CustomHeader({ removeCart }) {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+    setUser(null)
     router.push("/user-auth");
   };
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user")) || [];
-    setUser(userData);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if(userData){
+      setUser(userData)
+    }
   }, []);
 
   useEffect(() => {
@@ -25,9 +29,9 @@ export default function CustomHeader({ removeCart }) {
     }
   }, [removeCart]);
 
-  const handleProfile  = () => {
-    router.push("/myprofile")
-  }
+  const handleProfile = () => {
+    router.push("/myprofile");
+  };
 
   return (
     <div className="flex w-full justify-between p-5 ">
@@ -51,14 +55,13 @@ export default function CustomHeader({ removeCart }) {
             </button>
           </div>
         ) : (
-          <div>
-            {" "}
+          <div className="flex justify-center items-center gap-10">
             <h1>Login</h1>
             <h1>SignUp</h1>
           </div>
         )}
         <Link href="/cart">
-          <h1>Cart({cartCount.length})</h1>
+          <h1>Cart({cartCount?.length || 0})</h1>
         </Link>
         <h1>Add Restaurent</h1>
       </div>

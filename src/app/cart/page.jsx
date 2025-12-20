@@ -11,13 +11,12 @@ export default function Page() {
   const { cartCount, handleRemoveFromCart } = useContext(CartContext);
   const router = useRouter();
 
-  const totalPrice = cart.reduce((acc, curr) => {
+  const totalPrice = cart?.reduce((acc, curr) => {
     return acc + Number(curr.price);
   }, 0);
 
-  console.log("totalPrice", totalPrice);
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("cart"));
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(cartData);
   }, [cartCount]);
 
