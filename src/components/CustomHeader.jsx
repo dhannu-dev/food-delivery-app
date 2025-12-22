@@ -56,8 +56,8 @@ export default function CustomHeader({ removeCart }) {
           </div>
         ) : (
           <div className="flex justify-center items-center gap-10">
-            <h1>Login</h1>
-            <h1>SignUp</h1>
+            <Link href="/user-auth"><h1>Login</h1></Link>
+            <Link href="/user-auth"><h1>SignUp</h1></Link>
           </div>
         )}
         <Link href="/cart">

@@ -26,10 +26,6 @@ export default function Profile() {
     getMyOrder();
   }, []);
 
-  useEffect(() => {
-    console.log("myorder", myOrder);
-  }, [myOrder]);
-
   return (
     <div className="flex flex-col gap-5 px-5">
       <CustomHeader />

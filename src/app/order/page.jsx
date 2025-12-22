@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 export default function Page() {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState();
+  const [city, setCity] = useState();
   const { cartCount } = useContext(CartContext);
   const [removeCart, setRemoveCart] = useState(false);
   const router = useRouter();
@@ -27,11 +28,30 @@ export default function Page() {
     setUser(userData);
   }, []);
 
+  useEffect(() => {
+    const userCity = JSON.parse(localStorage.getItem("user")).city;
+    console.log("city", userCity);
+    setCity(userCity);
+  }, []);
+
   const handleOrder = async () => {
     let user_id = user._id;
     let resto_id = cart[0].resto_id;
     let foodItemsIds = cart.map((item) => item._id).toString();
-    let delieveryBoy_id = "69452a140ddf7a903cd8b175";
+    let delieveryBoyResponse = await fetch(
+      `http://localhost:3000/api/delievery/${city}`
+    );
+    let delieveryBoyCity = await delieveryBoyResponse.json();
+
+    let delieveryBoyIds = delieveryBoyCity.result.map((item) => item._id);
+    let delieveryBoy_id =
+      delieveryBoyIds[Math.floor(Math.random() * delieveryBoyIds.length)];
+   console.log(delieveryBoy_id)
+    if (!delieveryBoyIds) {
+      alert("Delievery Partner not available");
+      return false;
+    }
+
     let collection = {
       user_id,
       resto_id,

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -72,9 +73,20 @@ export default function UserSignUp(props) {
     <div className="flex justify-center items-center w-full">
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <h1 className="text-center font-semibold text-2xl">
+          <h1 className="text-center text-xl">
             User Signup Form
           </h1>
+          <div className="flex mb-3 justify-between items-center gap-10 bg-zinc-200 p-2 rounded-md text-black">
+            <Link href="/user-auth">
+              <h1 className="cursor-pointer">User</h1>
+            </Link>
+            <Link href="/delieveryPartner">
+              <h1 className="cursor-pointer">Delivery Boy</h1>
+            </Link>
+            <Link href="/restaurent">
+              <h1 className="cursor-pointer">Restaurent</h1>
+            </Link>
+          </div>
           <input
             name="name"
             value={formData.name}

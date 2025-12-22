@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -32,7 +33,18 @@ export default function UserLogin(props) {
   return (
     <div className="flex w-full justify-center items-center">
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-center text-xl">Login User</h1>
+        <h1 className="text-center text-xl mb-3">User Login Form</h1>
+        <div className="flex mb-3 justify-between items-center gap-10 bg-zinc-200 p-2 rounded-md text-black">
+          <Link href="/user-auth">
+            <h1 className="cursor-pointer">User</h1>
+          </Link>
+          <Link href="/delieveryPartner">
+            <h1 className="cursor-pointer">Delivery Boy</h1>
+          </Link>
+          <Link href="/restaurent">
+            <h1 className="cursor-pointer">Restaurent</h1>
+          </Link>
+        </div>
         <div className="flex flex-col gap-1.5">
           <label>Email</label>
           <input
