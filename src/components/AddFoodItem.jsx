@@ -19,7 +19,7 @@ export default function AddFoodItem({ setAddItem }) {
       resto_id = restaurentData._id;
     }
 
-    let response = await fetch("http://localhost:3000/api/restaurent/foods", {
+    let response = await fetch("/api/restaurent/foods", {
       method: "POST",
       body: JSON.stringify({ name, price, path, description, resto_id }),
     });

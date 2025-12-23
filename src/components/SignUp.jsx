@@ -18,7 +18,7 @@ export default function SignUp() {
 
     const user = { name, email, city, password };
 
-    let response = await fetch("http://localhost:3000/api/restaurent", {
+    let response = await fetch("/api/restaurent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

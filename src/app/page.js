@@ -17,14 +17,14 @@ export default function Page() {
 
   const loadLocation = async () => {
     const response = await fetch(
-      "http://localhost:3000/api/customer/locations"
+      "/api/customer/locations"
     );
     const data = await response.json();
     setCity(data.result);
   };
 
   const loadRestaurents = async (params) => {
-    let url = "http://localhost:3000/api/customer";
+    let url = "/api/customer";
     if (params?.location) {
       url = url + "?location=" + params.location;
     } else if (params?.restaurent) {

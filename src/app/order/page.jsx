@@ -39,7 +39,7 @@ export default function Page() {
     let resto_id = cart[0].resto_id;
     let foodItemsIds = cart.map((item) => item._id).toString();
     let delieveryBoyResponse = await fetch(
-      `http://localhost:3000/api/delievery/${city}`
+      `/api/delievery/${city}`
     );
     let delieveryBoyCity = await delieveryBoyResponse.json();
 
@@ -61,7 +61,7 @@ export default function Page() {
       amount: totalPrice + DELIVERY_CHARGES + (totalPrice * TAX) / 100,
     };
 
-    const response = await fetch("http://localhost:3000/api/order", {
+    const response = await fetch("/api/order", {
       method: "POST",
       body: JSON.stringify(collection),
     });

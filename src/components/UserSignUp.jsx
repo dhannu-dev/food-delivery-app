@@ -29,7 +29,7 @@ export default function UserSignUp(props) {
       alert("Please enter all required field");
       return;
     }
-    let response = await fetch("http://localhost:3000/api/user", {
+    let response = await fetch("/api/user", {
       method: "POST",
       body: JSON.stringify({
         name: formData.name,

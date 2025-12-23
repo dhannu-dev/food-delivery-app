@@ -20,7 +20,7 @@ export default function DelieveryMan() {
     }
     try {
       const response = await fetch(
-        "http://localhost:3000/api/delievery/signup",
+        "/api/delievery/signup",
         {
           method: "POST",
           body: JSON.stringify({ name, city, password, mobile }),
@@ -50,7 +50,7 @@ export default function DelieveryMan() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/api/delievery/login", {
+        const response = await fetch("/api/delievery/login", {
             method: "POST",
             body : JSON.stringify({mobile : loginMobile, password : loginPassword})
         });

@@ -21,7 +21,7 @@ export default function EditFoodItem() {
 
   const handleFetchFoodById = async (id) => {
     const result = await fetch(
-      `http://localhost:3000/api/restaurent/foods/edit/${id}`
+      `/api/restaurent/foods/edit/${id}`
     );
 
     const data = await result.json();
@@ -38,7 +38,7 @@ export default function EditFoodItem() {
     }
 
     const result = await fetch(
-      `http://localhost:3000/api/restaurent/foods/edit/${id}`,
+      `/api/restaurent/foods/edit/${id}`,
       {
         method: "PUT",
         body: JSON.stringify({ name, price, path, description }),

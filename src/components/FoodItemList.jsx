@@ -18,7 +18,7 @@ export default function FoodItemList() {
 
     const resto_id = restaurentData._id;
     let response = await fetch(
-      `http://localhost:3000/api/restaurent/foods/${resto_id}`
+      `/api/restaurent/foods/${resto_id}`
     );
     const data = await response.json();
     if (data.success) {
@@ -30,7 +30,7 @@ export default function FoodItemList() {
 
   const handleDelete = async (foodID) => {
     let response = await fetch(
-      `http://localhost:3000/api/restaurent/foods/${foodID}`,
+      `/api/restaurent/foods/${foodID}`,
       {
         method: "delete",
       }

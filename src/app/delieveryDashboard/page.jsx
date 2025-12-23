@@ -11,7 +11,7 @@ export default function Dashboard() {
     const getMyOrder = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/delievery/orders/${deliveryData._id}`
+          `/api/delievery/orders/${deliveryData._id}`
         );
         const result = await response.json();
         console.log("result", result);
