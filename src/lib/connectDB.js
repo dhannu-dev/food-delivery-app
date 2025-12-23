@@ -8,7 +8,7 @@ export async function connectDB() {
     return;
   }
   try {
-    mongoose.connect(process.env.MONGO_URI, {
+    mongoose.connect(process.env.MONGODB_URI, {
       dbName: "delivery_app",
     });
     console.log("connect db");
