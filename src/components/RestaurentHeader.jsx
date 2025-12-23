@@ -30,7 +30,7 @@ export default function RestaurentHeader() {
         <h1>Food Devlivery App</h1>
       </div>
       <div className="flex gap-10">
-        <Link href="/"><h1>Home</h1></Link>
+        <Link href="/"><h1 className="cursor-pointer">Home</h1></Link>
         {details ? (
           <h1 className="cursor-pointer" onClick={handleLogout}>
             Logout

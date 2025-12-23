@@ -1,4 +1,5 @@
 "use client";
+import DeleiveryHeader from "@/components/DelieveryHeader";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -69,9 +70,10 @@ export default function DelieveryMan() {
   }
 
   return (
-    <div className="flex h-screen w-full justify-center items-center flex-col">
+    <div className="flex h-screen items-center flex-col">
+      <DeleiveryHeader />
       {login ? (
-        <div className="p-2 text-center flex flex-col justify-center items-center gap-3">
+        <div className="p-2 text-center h-screen flex flex-col justify-center items-center gap-3">
           <h1 className="text-xl mb-1">Login Deleivery Man</h1>
           <input
             type="text"
@@ -98,7 +100,7 @@ export default function DelieveryMan() {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col h-screen justify-center items-center gap-3">
           <h1 className="text-center text-xl">SignUp Delievery Man</h1>
           <div className="flex flex-col gap-1">
             <label>Name</label>
