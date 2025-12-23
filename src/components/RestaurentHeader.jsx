@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -29,7 +30,7 @@ export default function RestaurentHeader() {
         <h1>Food Devlivery App</h1>
       </div>
       <div className="flex gap-10">
-        <h1>Home</h1>
+        <Link href="/"><h1>Home</h1></Link>
         {details ? (
           <h1 className="cursor-pointer" onClick={handleLogout}>
             Logout

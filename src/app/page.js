@@ -8,7 +8,7 @@ export default function Page() {
   const [city, setCity] = useState([]);
   const [showList, setShowList] = useState(false);
   const [restaurent, setRestaurent] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     loadLocation();
@@ -16,24 +16,44 @@ export default function Page() {
   }, []);
 
   const loadLocation = async () => {
-    const response = await fetch(
-      "/api/customer/locations"
-    );
-    const data = await response.json();
-    setCity(data.result);
+    try {
+      const response = await fetch("/api/customer/locations");
+
+      console.log("status:", response.status);
+
+      const data = await response.json();
+      console.log("API response:", data);
+
+      if (data.success) {
+        setCity(data.result);
+      } else {
+        console.error("API error:", data.message);
+      }
+    } catch (error) {
+      console.error("Fetch failed:", error);
+    }
   };
 
   const loadRestaurents = async (params) => {
-    let url = "/api/customer";
-    if (params?.location) {
-      url = url + "?location=" + params.location;
-    } else if (params?.restaurent) {
-      url = url + "?restaurent=" + params.restaurent;
-    }
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.success) {
-      setRestaurent(data.result);
+    try {
+      let url = "/api/customer";
+      if (params?.location) {
+        url += "?location=" + params.location;
+      } else if (params?.restaurent) {
+        url += "?restaurent=" + params.restaurent;
+      }
+
+      const response = await fetch(url);
+      console.log("status:", response.status);
+
+      const data = await response.json();
+      console.log("API response:", data);
+
+      if (data.success) {
+        setRestaurent(data.result);
+      }
+    } catch (error) {
+      console.error("Fetch failed:", error);
     }
   };
 
